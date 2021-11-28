@@ -5,7 +5,7 @@
     <application
         android:name="com.example.model.App"
         android:allowBackup="true"
-        android:icon="@drawable/app_ic_enote"
+        android:icon="@drawable/app_ic_room_notepad"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"

@@ -26,6 +26,10 @@ public interface NoteDao extends Serializable {
     @Query("SELECT * FROM note WHERE date(dt) = date('now') ORDER BY dt")
     List<Note> getToday();
 
+    @Query("SELECT * FROM note ORDER BY :querySort")
+    List<Note> get(String querySort);
+
+
     @Query("SELECT * FROM note WHERE id = :id")
     Note getById(long id);
 
