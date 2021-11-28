@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/note_background"
+    >
+
+    <EditText
+        android:id="@+id/etTitle"
+        android:hint="Title"
+        style="@style/StyleMainEditText"
+        android:inputType="textPersonName"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        />
+
+    <EditText
+        android:id="@+id/etMemo"
+        android:hint="Text"
+        style="@style/StyleMainEditText"
+        android:gravity="top|start"
+        android:inputType="textMultiLine"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        />
+
+    <TextView
+        android:id="@+id/tvDateTime"
+        android:text="date and time"
+        style="@style/StyleDateTimeText"
+        android:layout_marginLeft="15sp"
+        />
+
+</LinearLayout>
