@@ -17,4 +17,12 @@ Features of the program code:
 
 ![alt text](app_ic_room_notepad.png)
 
+![alt text](Screenshot_1.jpg)
+
+![alt text](Screenshot_2.jpg)
+
+![alt text](Screenshot_3.jpg)
+
+![alt text](Screenshot_4.jpg)
+
 [28.11.21]
