@@ -22,7 +22,7 @@ import java.util.Locale;
 import java.util.Map;
 
 
-public class FilterFragment extends Fragment implements Serializable, IConst, IToast {
+public class FilterFragment extends Fragment implements IConst, IToast {
 
     private RadioButton rbFilterNone;
     private RadioButton rbFilterMonth;

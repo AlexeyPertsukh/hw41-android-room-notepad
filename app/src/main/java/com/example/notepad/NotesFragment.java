@@ -74,7 +74,7 @@ public class NotesFragment extends Fragment implements IConst, IToast {
     @SuppressWarnings("unchecked")
     private void readArguments() {
         assert getArguments() != null;
-        notes = (ArrayList<Note>) getArguments().getSerializable(KEY_NOTES);
+        notes = getArguments().getParcelableArrayList(KEY_NOTES);
     }
 
     private void initViews(View view) {

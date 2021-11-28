@@ -6,8 +6,11 @@ import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 @Entity
-public class Note implements Serializable, INull {
+public class Note implements Parcelable, INull {
     @PrimaryKey(autoGenerate = true)
     private long id;
     private String title;
@@ -19,6 +22,14 @@ public class Note implements Serializable, INull {
 
     @Ignore
     public Note(String title, String memo, String dt) {
+        this.title = title;
+        this.memo = memo;
+        this.dt = dt;
+    }
+
+    @Ignore
+    public Note(long id, String title, String memo, String dt) {
+        this.id = id;
         this.title = title;
         this.memo = memo;
         this.dt = dt;
@@ -64,4 +75,35 @@ public class Note implements Serializable, INull {
     public boolean isNull() {
         return false;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(title);
+        dest.writeString(memo);
+        dest.writeString(dt);
+    }
+
+    public static final Creator<Note> CREATOR = new Creator<Note>() {
+        @Override
+        public Note createFromParcel(Parcel source) {
+            long id = source.readLong();
+            String title = source.readString();
+            String memo = source.readString();
+            String dt = source.readString();
+            return new Note(id, title, memo, dt);
+        }
+
+        @Override
+        public Note[] newArray(int size) {
+            return new Note[size];
+        }
+    };
+
+
 }

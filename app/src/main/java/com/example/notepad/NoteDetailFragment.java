@@ -38,7 +38,7 @@ public class NoteDetailFragment extends Fragment implements IConst, IToast, IBas
 
     private IGeneralMenu iGeneralMenu;
     private IChangeFragment iChangeFragment;
-
+    private IDao iDao;
 
     public NoteDetailFragment() {
     }
@@ -48,6 +48,7 @@ public class NoteDetailFragment extends Fragment implements IConst, IToast, IBas
         super.onAttach(context);
         iGeneralMenu = (IGeneralMenu) context;
         iChangeFragment = (IChangeFragment) context;
+        iDao = (IDao) context;
     }
 
     @Override
@@ -61,6 +62,7 @@ public class NoteDetailFragment extends Fragment implements IConst, IToast, IBas
         View view = inflater.inflate(R.layout.fragment_note_detail, container, false);
         initView(view);
         initListeners();
+        dao = iDao.getNoteDao();
 
         if(savedInstanceState != null) {
             loadFromBundle(savedInstanceState);
@@ -83,11 +85,11 @@ public class NoteDetailFragment extends Fragment implements IConst, IToast, IBas
     }
 
     private void loadFromBundle(Bundle bundle) {
-        inputNote = (Note) bundle.getSerializable(KEY_ONE_NOTE);
-        dao = (NoteDao) bundle.getSerializable(KEY_DAO);
+        inputNote = bundle.getParcelable(KEY_ONE_NOTE);
+        Note editNote = bundle.getParcelable(KEY_NOTE_FROM_VIEW);
         Select selectTitle = (Select) bundle.getSerializable(KEY_SELECT_TITLE);
         Select selectMemo = (Select) bundle.getSerializable(KEY_SELECT_MEMO);
-        addNoteToView(inputNote);
+        addNoteToView(editNote);
         setSelectInEt(etTitle, selectTitle);
         setSelectInEt(etMemo, selectMemo);
 
@@ -98,8 +100,7 @@ public class NoteDetailFragment extends Fragment implements IConst, IToast, IBas
     }
 
     private void loadFromArguments() {
-        inputNote = (Note) getArguments().getSerializable(KEY_ONE_NOTE);
-        dao = (NoteDao) getArguments().getSerializable(KEY_DAO);
+        inputNote = getArguments().getParcelable(KEY_ONE_NOTE);
         addNoteToView(inputNote);
     }
 
@@ -178,9 +179,8 @@ public class NoteDetailFragment extends Fragment implements IConst, IToast, IBas
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable(KEY_DAO, dao);
-        outState.putSerializable(KEY_ONE_NOTE, inputNote);
-        outState.putSerializable(KEY_NOTE_FROM_VIEW, createNoteFromView());
+        outState.putParcelable(KEY_ONE_NOTE, inputNote);
+        outState.putParcelable(KEY_NOTE_FROM_VIEW, createNoteFromView());
 
         Select selectTitle = new Select(etTitle.getSelectionStart(), etTitle.getSelectionEnd());
         Select selectMemo = new Select(etMemo.getSelectionStart(), etMemo.getSelectionEnd());
@@ -189,7 +189,7 @@ public class NoteDetailFragment extends Fragment implements IConst, IToast, IBas
         outState.putSerializable(KEY_SELECT_MEMO, selectMemo);
     }
 
-    private class Select implements Serializable {
+    private static class Select implements Serializable {
         public int start;
         public int end;
 

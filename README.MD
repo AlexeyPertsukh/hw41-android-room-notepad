@@ -11,6 +11,7 @@ Features of the program code:
 - Single activity
 - Working with SQL via Room
 - RecyclerView
+- Using Parcelable to pass Room Entity objects between fragments (buggy when using Serialization)
 - Items sorting and filtering
 - Change the color of the menu item icon when setting the filter
 - Keep text cursor position or selected text on rotation 

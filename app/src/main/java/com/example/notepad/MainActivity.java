@@ -23,7 +23,7 @@ import com.example.util.IToast;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements IToast, ILog, IBasicDialog, IGeneralMenu, IConst, IChangeFragment
-        , ISort, IFilter {
+        , ISort, IFilter, IDao {
     private NoteDao noteDao;
     private NotesFragment notesFragment;
     private NoteDetailFragment noteDetailFragment;
@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements IToast, ILog, IBa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        changeStatusBarColor();
 
         NotepadDb notepadDb = App.getInstance().getNotepadDb();
         noteDao = notepadDb.noteDao();
@@ -52,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements IToast, ILog, IBa
         }
     }
 
+    private void changeStatusBarColor() {
+        getWindow().setStatusBarColor(getResources().getColor(R.color.black));
+    }
 
     private void initViews() {
     }
@@ -67,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements IToast, ILog, IBa
     public void showNotesFragment() {
         ArrayList<Note> notes = readNotes(filter);
         Bundle args = new Bundle();
-        args.putSerializable(KEY_NOTES, notes);
+        args.putParcelableArrayList(KEY_NOTES, notes);
         notesFragment.setArguments(args);
 
         getSupportFragmentManager()
@@ -79,8 +83,7 @@ public class MainActivity extends AppCompatActivity implements IToast, ILog, IBa
     @Override
     public void showNoteDetailFragment(Note note) {
         Bundle args = new Bundle();
-        args.putSerializable(KEY_DAO, noteDao);
-        args.putSerializable(KEY_ONE_NOTE, note);
+        args.putParcelable(KEY_ONE_NOTE, note);
         noteDetailFragment.setArguments(args);
 
         getSupportFragmentManager()
@@ -182,21 +185,25 @@ public class MainActivity extends AppCompatActivity implements IToast, ILog, IBa
     private ArrayList<Note> readNotes(Filter filter) {
         printLog(filter.getQuery());
 
-        String s = sort.getQuery();
-        String f = filter.name();
-        printLog(String.format("SELECT * FROM note ORDER BY %s", s));
+//        String s = sort.getQuery();
+//        String f = filter.name();
+//        printLog(String.format("SELECT * FROM note ORDER BY %s", s));
+//
+//        return new ArrayList<>(noteDao.get(s));
 
-        return new ArrayList<>(noteDao.get(s));
+        if(filter == Filter.MONTH) {
+            return new ArrayList<>(noteDao.getMonth());
+        } else if(filter == Filter.WEEK) {
+            return new ArrayList<>(noteDao.getWeek());
+        } else if(filter == Filter.TODAY) {
+            return new ArrayList<>(noteDao.getToday());
+        } else {
+            return new ArrayList<>(noteDao.getAll());
+        }
+    }
 
-
-//        if(filter == Filter.MONTH) {
-//            return new ArrayList<>(noteDao.getMonth());
-//        } else if(filter == Filter.WEEK) {
-//            return new ArrayList<>(noteDao.getWeek());
-//        } else if(filter == Filter.TODAY) {
-//            return new ArrayList<>(noteDao.getToday());
-//        } else {
-//            return new ArrayList<>(noteDao.getAll());
-//        }
+    @Override
+    public NoteDao getNoteDao() {
+        return noteDao;
     }
 }

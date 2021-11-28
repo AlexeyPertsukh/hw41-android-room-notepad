@@ -12,8 +12,8 @@
     <color name="orange">#FF5722</color>
     <color name="yellow">#FFC107</color>
     <color name="green">#1B501E</color>
-    <color name="title_background">#01685E</color>
+    <color name="app_title_background">@color/red</color>
     <color name="note_background">#F8F4D1</color>
-    <color name="settings_background">#F8F4D1</color>
+    <color name="settings_background">@color/note_background</color>
     <color name="main_text_color">#FF000000</color>
 </resources>

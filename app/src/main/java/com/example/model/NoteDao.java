@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Dao
-public interface NoteDao extends Serializable {
+public interface NoteDao {
 
     @Query("SELECT * FROM note ORDER BY dt")
     List<Note> getAll();
