@@ -9,5 +9,5 @@ public interface IChangeFragment {
 
     void showSortFragment();
 
-    void showFilterFragment();
+    void showFilterDialog();
 }

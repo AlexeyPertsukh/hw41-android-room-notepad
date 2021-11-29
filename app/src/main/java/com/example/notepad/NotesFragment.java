@@ -1,5 +1,6 @@
 package com.example.notepad;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -19,12 +20,13 @@ import android.view.ViewGroup;
 import com.example.constants.IConst;
 import com.example.model.Note;
 import com.example.model.NoteAdapter;
+import com.example.util.ILog;
 import com.example.util.IToast;
 
 import java.util.ArrayList;
 
 
-public class NotesFragment extends Fragment implements IConst, IToast {
+public class NotesFragment extends Fragment implements IConst, IToast, ILog {
 
     private RecyclerView rvNotes;
     private NoteAdapter noteAdapter;
@@ -34,7 +36,7 @@ public class NotesFragment extends Fragment implements IConst, IToast {
 
     private IGeneralMenu iGeneralMenu;
     private IChangeFragment iChangeFragment;
-    private IFilter iFilter;
+    private IInfo iInfo;
 
     public NotesFragment() {
     }
@@ -44,34 +46,34 @@ public class NotesFragment extends Fragment implements IConst, IToast {
         super.onAttach(context);
         iGeneralMenu = (IGeneralMenu) context;
         iChangeFragment = (IChangeFragment) context;
-        iFilter = (IFilter) context;
+        iInfo = (IInfo) context;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        printLog("NotesFragment - onCreate");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notes, container, false);
+        printLog("NotesFragment - onCreateView");
 
         if (getArguments() != null) {
-            if(getArguments() != null) {
-                readArguments();
-                initViews(view);
-                initRvUsers();
-                initAdapter();
-                initListeners();
-            }
+            readArguments();
         }
+
+        initViews(view);
+        initRvUsers();
+        initAdapter();
+        initListeners();
 
         setHasOptionsMenu(true);
         return view;
     }
 
-    @SuppressWarnings("unchecked")
     private void readArguments() {
         assert getArguments() != null;
         notes = getArguments().getParcelableArrayList(KEY_NOTES);
@@ -102,6 +104,12 @@ public class NotesFragment extends Fragment implements IConst, IToast {
     }
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(KEY_NOTES, notes);
+    }
+
+    @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.menu_notes_fragment, menu);
@@ -126,7 +134,7 @@ public class NotesFragment extends Fragment implements IConst, IToast {
     }
 
     private void changeFilterIcon() {
-        if (iFilter.isFiltered()) {
+        if (iInfo.isFiltered()) {
             miFilter.setIcon(R.drawable.ic_baseline_filter_list_64_green);
         } else {
             miFilter.setIcon(R.drawable.ic_baseline_filter_list_64_white);
@@ -134,7 +142,7 @@ public class NotesFragment extends Fragment implements IConst, IToast {
     }
 
     private void filter() {
-        iChangeFragment.showFilterFragment();
+        iChangeFragment.showFilterDialog();
     }
 
     private void sort() {
@@ -147,5 +155,12 @@ public class NotesFragment extends Fragment implements IConst, IToast {
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
+    public void updateNotes(ArrayList<Note> notes) {
+        this.notes.clear();
+        this.notes.addAll(notes);
+        noteAdapter.notifyDataSetChanged();
+        changeFilterIcon();
+    }
 
 }
