@@ -3,9 +3,9 @@ package com.example.model;
 import java.io.Serializable;
 
 public enum Filter implements Serializable {
-    NONE("dt > '1900-01-01'"),
-    MONTH("dt > date('now','-1 month')"),
-    WEEK("dt > date('now','-7 day')"),
+    NONE(""),
+    MONTH("WHERE dt > date('now','-1 month')"),
+    WEEK("WHERE dt > date('now','-7 day')"),
     TODAY("WHERE date(dt) = date('now')"),
     ;
 

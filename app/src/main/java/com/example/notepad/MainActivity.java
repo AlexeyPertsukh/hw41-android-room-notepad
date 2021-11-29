@@ -2,6 +2,7 @@ package com.example.notepad;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements IToast, ILog, IBa
 
     @Override
     public void showNotesFragment() {
-        ArrayList<Note> notes = readNotes(filter);
+        ArrayList<Note> notes = readNotes(filter, sort);
         Bundle args = new Bundle();
         args.putParcelableArrayList(KEY_NOTES, notes);
         notesFragment.setArguments(args);
@@ -200,24 +201,27 @@ public class MainActivity extends AppCompatActivity implements IToast, ILog, IBa
         return filter != Filter.NONE;
     }
 
-    private ArrayList<Note> readNotes(Filter filter) {
-        printLog(filter.getQuery());
+    private ArrayList<Note> readNotes(Filter filter, Sort sort) {
+//        printLog(filter.getQuery());
 
-//        String s = sort.getQuery();
-//        String f = filter.name();
-//        printLog(String.format("SELECT * FROM note ORDER BY %s", s));
-//
-//        return new ArrayList<>(noteDao.get(s));
 
-        if(filter == Filter.MONTH) {
-            return new ArrayList<>(noteDao.getMonth());
-        } else if(filter == Filter.WEEK) {
-            return new ArrayList<>(noteDao.getWeek());
-        } else if(filter == Filter.TODAY) {
-            return new ArrayList<>(noteDao.getToday());
-        } else {
-            return new ArrayList<>(noteDao.getAll());
-        }
+        return new ArrayList<>(noteDao.get(createQueryOf(filter, sort)));
+
+//        if(filter == Filter.MONTH) {
+//            return new ArrayList<>(noteDao.getMonth());
+//        } else if(filter == Filter.WEEK) {
+//            return new ArrayList<>(noteDao.getWeek());
+//        } else if(filter == Filter.TODAY) {
+//            return new ArrayList<>(noteDao.getToday());
+//        } else {
+//            return new ArrayList<>(noteDao.getAll());
+//        }
+    }
+
+    private SimpleSQLiteQuery createQueryOf(Filter filter, Sort sort) {
+        String query = String.format("SELECT * FROM note %s %s", filter.getQuery(), sort.getQuery());
+        printLog(query);
+        return new SimpleSQLiteQuery(query);
     }
 
     @Override

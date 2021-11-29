@@ -15,6 +15,7 @@ Features of the program code:
 - Items sorting and filtering
 - Change the color of the menu item icon when setting the filter
 - Keep text cursor position or selected text on rotation 
+- Use SimpleSQLiteQuery for a complex query with sorting or filtering in Room Entity
 
 ![alt text](app_ic_room_notepad.png)
 
