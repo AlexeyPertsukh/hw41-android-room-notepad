@@ -37,8 +37,6 @@ public class SortFragment extends Fragment implements Serializable, IConst, IToa
     private IChangeFragment iChangeFragment;
     private ISort iSort;
 
-    private Sort sort;
-
     public SortFragment() {
     }
 
@@ -62,22 +60,16 @@ public class SortFragment extends Fragment implements Serializable, IConst, IToa
         View view = inflater.inflate(R.layout.fragment_sort, container, false);
         initViews(view);
         initMaps();
-        if(getArguments() != null) {
-            readArguments();
-            setRbCheck();
-        }
+        setRbCheck();
         initListeners();
         return view;
     }
 
     private void setRbCheck() {
+        Sort sort = iSort.getSort();
         RadioButton rb = mapSortRb.get(sort);
         assert rb != null;
         rb.setChecked(true);
-    }
-
-    private void readArguments() {
-        sort = (Sort) getArguments().getSerializable(KEY_SORT);
     }
 
     private void initMaps() {
@@ -111,7 +103,7 @@ public class SortFragment extends Fragment implements Serializable, IConst, IToa
         if (!b) {
             return;
         }
-        sort = mapRbSort.get(compoundButton);
+        Sort sort = mapRbSort.get(compoundButton);
         iSort.setSort(sort);
         iChangeFragment.showNotesFragment();
         String message = "Sort by " + compoundButton.getText().toString().toLowerCase(Locale.ROOT);

@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.example.constants.IConst;
 import com.example.model.App;
 import com.example.model.Filter;
+import com.example.model.MySharedPreferences;
 import com.example.model.Note;
 import com.example.model.NoteDao;
 import com.example.model.NotepadDb;
@@ -24,12 +25,17 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements IToast, ILog, IBasicDialog, IGeneralMenu, IConst, IChangeFragment
         , ISort, IFilter, IDao {
+
+    private static final Sort DEFAULT_SORT = Sort.EDIT_OLD;
+    private static final Filter DEFAULT_FILTER = Filter.NONE;
+
     private NoteDao noteDao;
     private NotesFragment notesFragment;
     private NoteDetailFragment noteDetailFragment;
     private SortFragment sortFragment;
     private FilterFragment filterFragment;
 
+    private MySharedPreferences mySharedPreferences;
     private Sort sort;
     private Filter filter;
 
@@ -44,9 +50,8 @@ public class MainActivity extends AppCompatActivity implements IToast, ILog, IBa
         noteDao = notepadDb.noteDao();
         initViews();
         initFragments();
-
-        sort = Sort.EDIT_OLD;
-        filter = Filter.NONE;
+        initSharedPreferences();
+        readSettingsFromShared();
 
         if(savedInstanceState == null) {
             showNotesFragment();
@@ -65,6 +70,15 @@ public class MainActivity extends AppCompatActivity implements IToast, ILog, IBa
         noteDetailFragment = new NoteDetailFragment();
         sortFragment = new SortFragment();
         filterFragment = new FilterFragment();
+    }
+
+    private void initSharedPreferences() {
+        mySharedPreferences = MySharedPreferences.getInstance(getApplicationContext());
+    }
+
+    private void readSettingsFromShared() {
+        sort = mySharedPreferences.getSort(KEY_SHARED_SORT, DEFAULT_SORT);
+        filter = mySharedPreferences.getFilter(KEY_SHARED_FILTER, DEFAULT_FILTER);
     }
 
     @Override
@@ -94,10 +108,6 @@ public class MainActivity extends AppCompatActivity implements IToast, ILog, IBa
 
     @Override
     public void showSortFragment() {
-        Bundle args = new Bundle();
-        args.putSerializable(KEY_SORT, sort);
-        sortFragment.setArguments(args);
-
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fcMain, sortFragment)
@@ -106,10 +116,6 @@ public class MainActivity extends AppCompatActivity implements IToast, ILog, IBa
 
     @Override
     public void showFilterFragment() {
-        Bundle args = new Bundle();
-        args.putSerializable(KEY_FILTER, filter);
-        filterFragment.setArguments(args);
-
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fcMain, filterFragment)
@@ -169,12 +175,24 @@ public class MainActivity extends AppCompatActivity implements IToast, ILog, IBa
     @Override
     public void setSort(Sort sort) {
         this.sort = sort;
+        mySharedPreferences.putSort(KEY_SHARED_SORT, sort);
+    }
+
+    @Override
+    public Sort getSort() {
+        return sort;
     }
 
     @Override
     public void setFilter(Filter filter) {
         this.filter = filter;
+        mySharedPreferences.putFilter(KEY_SHARED_FILTER, filter);
         printLog("setFilter " + filter.name() + " " + filter.getQuery());
+    }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
     }
 
     @Override

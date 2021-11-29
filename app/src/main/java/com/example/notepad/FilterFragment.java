@@ -35,9 +35,6 @@ public class FilterFragment extends Fragment implements IConst, IToast {
     private IChangeFragment iChangeFragment;
     private IFilter iFilter;
 
-
-    private Filter filter;
-
     public FilterFragment() {
     }
 
@@ -61,16 +58,9 @@ public class FilterFragment extends Fragment implements IConst, IToast {
         View view = inflater.inflate(R.layout.fragment_filter, container, false);
         initViews(view);
         initMaps();
-        if(getArguments() != null) {
-            readArguments();
-            setRbCheck();
-        }
+        setRbCheck();
         initListeners();
         return view;
-    }
-
-    private void readArguments() {
-        filter = (Filter) getArguments().getSerializable(KEY_FILTER);
     }
 
     private void initViews(View view) {
@@ -102,6 +92,7 @@ public class FilterFragment extends Fragment implements IConst, IToast {
     }
 
     private void setRbCheck() {
+        Filter filter = iFilter.getFilter();
         RadioButton rb = mapIntFilter.get(filter);
         assert rb != null;
         rb.setChecked(true);

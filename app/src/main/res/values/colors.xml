@@ -7,12 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="gray">#717070</color>
+    <color name="dark_gray">#504F4F</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#ED1313</color>
     <color name="orange">#FF5722</color>
     <color name="yellow">#FFC107</color>
     <color name="green">#1B501E</color>
-    <color name="app_title_background">@color/red</color>
+    <color name="app_title_background">@color/dark_gray</color>
     <color name="note_background">#F8F4D1</color>
     <color name="settings_background">@color/note_background</color>
     <color name="main_text_color">#FF000000</color>

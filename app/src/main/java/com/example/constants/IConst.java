@@ -10,5 +10,7 @@ public interface IConst {
     String KEY_SORT = "key_sort";
     String KEY_FILTER = "key_filter";
     String KEY_RECOVERY = "key_recovery";
+    String KEY_SHARED_FILTER = "key_shared_filter_name";
+    String KEY_SHARED_SORT = "key_shared_sort_name";
     String GIT_URL = "https://github.com/AlexeyPertsukh/hw41-android-room-notepad";
 }

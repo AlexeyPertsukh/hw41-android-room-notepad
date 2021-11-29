@@ -21,12 +21,33 @@ public class MySharedPreferences{
         return mySharedPreferences;
     }
 
-    public String getString(String name, String defaultResult) {
-        return sharedPreferences.getString(name, defaultResult);
+    public String getString(String key, String defaultResult) {
+        return sharedPreferences.getString(key, defaultResult);
     }
 
-    public void putString(String name, String value) {
-        editor.putString(name, value);
+    public void putString(String key, String value) {
+        editor.putString(key, value);
         editor.apply();
     }
+
+    public void putSort(String key, Sort sort) {
+        String name = sort.name();
+        putString(key, name);
+    }
+
+    public Sort getSort(String key, Sort defaultSort) {
+        String name = getString(key, defaultSort.name());
+        return Sort.valueOf(name);
+    }
+
+    public void putFilter(String key, Filter filter) {
+        String name = filter.name();
+        putString(key, name);
+    }
+
+    public Filter getFilter(String key, Filter defaultFilter) {
+        String name = getString(key, defaultFilter.name());
+        return Filter.valueOf(name);
+    }
+
 }
