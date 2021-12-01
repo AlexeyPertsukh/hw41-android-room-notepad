@@ -7,7 +7,7 @@ public interface IChangeFragment {
 
     void showNoteDetailFragment(Note note);
 
-    void showSortFragment();
+//    void showSortDialog();
 
-    void showFilterDialog();
+//    void showFilterDialog();
 }

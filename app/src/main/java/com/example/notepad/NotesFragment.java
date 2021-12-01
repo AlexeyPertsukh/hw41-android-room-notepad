@@ -18,15 +18,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.constants.IConst;
+import com.example.model.Filter;
 import com.example.model.Note;
 import com.example.model.NoteAdapter;
+import com.example.model.Sort;
 import com.example.util.ILog;
 import com.example.util.IToast;
 
 import java.util.ArrayList;
 
 
-public class NotesFragment extends Fragment implements IConst, IToast, ILog {
+public class NotesFragment extends Fragment implements IConst, IToast, ILog, RadioButtonDialogFragment.CallbackRadioButtonDialog {
+    private static final String SORT_DIALOG_TITLE = "SORT";
+    private static final String FILTER_DIALOG_TITLE = "FILTER";
 
     private RecyclerView rvNotes;
     private NoteAdapter noteAdapter;
@@ -36,7 +40,8 @@ public class NotesFragment extends Fragment implements IConst, IToast, ILog {
 
     private IGeneralMenu iGeneralMenu;
     private IChangeFragment iChangeFragment;
-    private IInfo iInfo;
+    private IMain iMain;
+
 
     public NotesFragment() {
     }
@@ -46,7 +51,7 @@ public class NotesFragment extends Fragment implements IConst, IToast, ILog {
         super.onAttach(context);
         iGeneralMenu = (IGeneralMenu) context;
         iChangeFragment = (IChangeFragment) context;
-        iInfo = (IInfo) context;
+        iMain = (IMain) context;
     }
 
     @Override
@@ -134,7 +139,7 @@ public class NotesFragment extends Fragment implements IConst, IToast, ILog {
     }
 
     private void changeFilterIcon() {
-        if (iInfo.isFiltered()) {
+        if (iMain.isFiltered()) {
             miFilter.setIcon(R.drawable.ic_baseline_filter_list_64_green);
         } else {
             miFilter.setIcon(R.drawable.ic_baseline_filter_list_64_white);
@@ -142,11 +147,11 @@ public class NotesFragment extends Fragment implements IConst, IToast, ILog {
     }
 
     private void filter() {
-        iChangeFragment.showFilterDialog();
+        showFilterDialog();
     }
 
     private void sort() {
-        iChangeFragment.showSortFragment();
+        showSortDialog();
     }
 
     private void addNote() {
@@ -155,12 +160,65 @@ public class NotesFragment extends Fragment implements IConst, IToast, ILog {
     }
 
 
-    @SuppressLint("NotifyDataSetChanged")
-    public void updateNotes(ArrayList<Note> notes) {
+
+    @Override
+    public void resultRadioButtonDialog(String type, int num) {
+        if (type.equalsIgnoreCase(SORT_DIALOG_TITLE)) {
+            checkRadioButtonSort(num);
+        } else if (type.equalsIgnoreCase(FILTER_DIALOG_TITLE)) {
+            checkRadioButtonFilter(num);
+        }
+    }
+
+    public void showSortDialog() {
+        final String title = SORT_DIALOG_TITLE;
+        final int numCheck = iMain.getSort().ordinal();
+        final Sort[] enums = Sort.values();
+
+        final String[] names = new String[enums.length];
+        for (int i = 0; i < enums.length; i++) {
+            names[i] = enums[i].getDescription();
+        }
+
+        final RadioButtonDialogFragment dialog = RadioButtonDialogFragment.getInstance(title, title, names, numCheck);
+        dialog.show(getChildFragmentManager(), title);
+    }
+
+    public void showFilterDialog() {
+        final String title = FILTER_DIALOG_TITLE;
+        final int numCheck = iMain.getFilter().ordinal();
+        final Filter[] enums = Filter.values();
+
+        final String[] names = new String[enums.length];
+        for (int i = 0; i < enums.length; i++) {
+            names[i] = enums[i].getDescription();
+        }
+
+        final RadioButtonDialogFragment dialog = RadioButtonDialogFragment.getInstance(title, title, names, numCheck);
+        dialog.show(getChildFragmentManager(), title);
+    }
+
+    private void checkRadioButtonSort(int numEnum) {
+        Sort sort = Sort.values()[numEnum];
+        iMain.setSort(sort);
+        updateNotes();
+    }
+
+    private void checkRadioButtonFilter(int numEnum) {
+        Filter filter = Filter.values()[numEnum];
+        iMain.setFilter(filter);
+        updateNotes();
+    }
+
+    private void updateNotes() {
+        Filter filter = iMain.getFilter();
+        Sort sort = iMain.getSort();
+        ArrayList<Note> notes = iMain.readNotes(filter, sort);
         this.notes.clear();
         this.notes.addAll(notes);
         noteAdapter.notifyDataSetChanged();
         changeFilterIcon();
     }
+
 
 }

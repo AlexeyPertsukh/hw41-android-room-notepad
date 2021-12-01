@@ -38,7 +38,7 @@ public class NoteDetailFragment extends Fragment implements IConst, IToast, IBas
 
     private IGeneralMenu iGeneralMenu;
     private IChangeFragment iChangeFragment;
-    private IDao iDao;
+    private IMain iMain;
 
     public NoteDetailFragment() {
     }
@@ -48,7 +48,7 @@ public class NoteDetailFragment extends Fragment implements IConst, IToast, IBas
         super.onAttach(context);
         iGeneralMenu = (IGeneralMenu) context;
         iChangeFragment = (IChangeFragment) context;
-        iDao = (IDao) context;
+        iMain = (IMain) context;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class NoteDetailFragment extends Fragment implements IConst, IToast, IBas
         View view = inflater.inflate(R.layout.fragment_note_detail, container, false);
         initView(view);
         initListeners();
-        dao = iDao.getNoteDao();
+        dao = iMain.getNoteDao();
 
         if(savedInstanceState != null) {
             loadFromBundle(savedInstanceState);

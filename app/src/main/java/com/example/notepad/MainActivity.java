@@ -2,8 +2,6 @@ package com.example.notepad;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import android.content.Intent;
@@ -26,11 +24,8 @@ import com.example.util.IToast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements IToast, ILog, IBasicDialog, IGeneralMenu, IConst, IChangeFragment
-        , IInfo, IDao, RadioButtonDialogFragment.CallbackRadioButtonDialog {
-
-    private static final String SORT_DIALOG_TITLE = "SORT";
-    private static final String FILTER_DIALOG_TITLE = "FILTER";
+public class MainActivity extends AppCompatActivity implements IToast, ILog, IBasicDialog, IGeneralMenu, IConst
+        , IChangeFragment, IMain {
 
     private static final Sort DEFAULT_SORT = Sort.EDIT_OLD;
     private static final Filter DEFAULT_FILTER = Filter.NONE;
@@ -73,10 +68,6 @@ public class MainActivity extends AppCompatActivity implements IToast, ILog, IBa
     private void initFragments() {
         notesFragment = new NotesFragment();
         noteDetailFragment = new NoteDetailFragment();
-//        filterDialog = new RadioButtonDialogFragment();
-//        filterDialog.setOnCheckListener(this::checkRadioButtonFilter);
-//        sortDialog = new RadioButtonDialogFragment();
-//        sortDialog.setOnCheckListener(this::checkRadioButtonSort);
     }
 
     private void initSharedPreferences() {
@@ -114,37 +105,6 @@ public class MainActivity extends AppCompatActivity implements IToast, ILog, IBa
     }
 
     @Override
-    public void showSortFragment() {
-        final String title = SORT_DIALOG_TITLE;
-        final int numCheck = sort.ordinal();
-        final Sort[] enums = Sort.values();
-
-        final String[] names = new String[enums.length];
-        for (int i = 0; i < enums.length; i++) {
-            names[i] = enums[i].getDescription();
-        }
-
-        final RadioButtonDialogFragment dialog = RadioButtonDialogFragment.getInstance(title, title, names, numCheck);
-        dialog.show(getSupportFragmentManager(), title);
-    }
-
-    @Override
-    public void showFilterDialog() {
-        final String title = FILTER_DIALOG_TITLE;
-        final int numCheck = filter.ordinal();
-        final Filter[] enums = Filter.values();
-
-        final String[] names = new String[enums.length];
-        for (int i = 0; i < enums.length; i++) {
-            names[i] = enums[i].getDescription();
-        }
-
-        final RadioButtonDialogFragment dialog = RadioButtonDialogFragment.getInstance(title, title, names, numCheck);
-        dialog.show(getSupportFragmentManager(), title);
-
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
@@ -160,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements IToast, ILog, IBa
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     private void showEndDialog() {
         String message = "Do you want to exit the program?";
@@ -191,14 +150,26 @@ public class MainActivity extends AppCompatActivity implements IToast, ILog, IBa
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-            outState.putString(KEY_RECOVERY, "recovery");
+        outState.putString(KEY_RECOVERY, "recovery");
     }
 
+    @Override
+    public Sort getSort() {
+        return sort;
+    }
+
+    @Override
     public void setSort(Sort sort) {
         this.sort = sort;
         mySharedPreferences.putSort(KEY_SHARED_SORT, sort);
     }
 
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    @Override
     public void setFilter(Filter filter) {
         this.filter = filter;
         mySharedPreferences.putFilter(KEY_SHARED_FILTER, filter);
@@ -209,7 +180,8 @@ public class MainActivity extends AppCompatActivity implements IToast, ILog, IBa
         return filter != Filter.NONE;
     }
 
-    private ArrayList<Note> readNotes(Filter filter, Sort sort) {
+    @Override
+    public ArrayList<Note> readNotes(Filter filter, Sort sort) {
         String query = String.format("SELECT * FROM note %s %s", filter.getQuery(), sort.getQuery());
         printLog(query);
 
@@ -221,35 +193,5 @@ public class MainActivity extends AppCompatActivity implements IToast, ILog, IBa
     public NoteDao getNoteDao() {
         return noteDao;
     }
-
-
-
-    @Override
-    public void resultRadioButtonDialog(String type, int num) {
-        if(type.equalsIgnoreCase(SORT_DIALOG_TITLE)) {
-            checkRadioButtonSort(num);
-        } else if(type.equalsIgnoreCase(FILTER_DIALOG_TITLE)) {
-            checkRadioButtonFilter(num);
-        }
-    }
-
-    private void checkRadioButtonSort(int numEnum) {
-        Sort sort = Sort.values()[numEnum];
-        setSort(sort);
-        updateNotes();
-    }
-
-    private void checkRadioButtonFilter(int numEnum) {
-        Filter filter = Filter.values()[numEnum];
-        setFilter(filter);
-        updateNotes();
-    }
-
-    private void updateNotes() {
-        ArrayList<Note> notes = readNotes(filter, sort);
-        NotesFragment fragment = (NotesFragment) getSupportFragmentManager().findFragmentById(R.id.fcMain);
-        fragment.updateNotes(notes);
-    }
-
 
 }

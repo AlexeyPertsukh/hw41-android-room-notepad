@@ -22,7 +22,7 @@ import com.example.util.ILog;
 
 import java.io.Serializable;
 
-//Activity должен реализовывать интерфейс Callback
+//Вызывать из фрагмента, ParentFragment должен реализовывать интерфейс Callback
 public class RadioButtonDialogFragment extends DialogFragment implements IConst, ILog {
     private String[] names;
     private String title;
@@ -45,25 +45,23 @@ public class RadioButtonDialogFragment extends DialogFragment implements IConst,
         return dialog;
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        callbackRadioButtonDialog = (CallbackRadioButtonDialog) context;
-        printLog("RadioButtonDialogFragment - onAttach");
-    }
-
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         printLog("RadioButtonDialogFragment - onCreateDialog");
+        try {
+            callbackRadioButtonDialog = (CallbackRadioButtonDialog) getParentFragment();
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Calling fragment must implement Callback interface");
+        }
+
+
         if (getArguments() != null) {
             names = getArguments().getStringArray(KEY_DIALOG_NAMES);
             title = getArguments().getString(KEY_DIALOG_TITLE);
             checkNum = getArguments().getInt(KEY_DIALOG_CHECK_NUM);
             type = getArguments().getString(KEY_DIALOG_TYPE);
         }
-
-//        printLog("OnCheckListener = "+onCheckListener.toString());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
