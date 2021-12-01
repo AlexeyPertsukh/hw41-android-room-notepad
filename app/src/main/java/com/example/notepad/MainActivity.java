@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements IToast, ILog, IBa
 
     @Override
     public void showNotesFragment() {
-        ArrayList<Note> notes = readNotes(filter, sort);
+        ArrayList<Note> notes = readNotes();
         Bundle args = new Bundle();
         args.putParcelableArrayList(KEY_NOTES, notes);
         notesFragment.setArguments(args);
@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements IToast, ILog, IBa
     }
 
     @Override
-    public ArrayList<Note> readNotes(Filter filter, Sort sort) {
+    public ArrayList<Note> readNotes() {
         String query = String.format("SELECT * FROM note %s %s", filter.getQuery(), sort.getQuery());
         printLog(query);
 

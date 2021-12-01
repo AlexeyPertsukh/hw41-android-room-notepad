@@ -27,4 +27,6 @@ Features of the program code:
 
 ![alt text](Screenshot_4.jpg)
 
+![alt text](Screenshot_5.jpg)
+
 [28.11.21]

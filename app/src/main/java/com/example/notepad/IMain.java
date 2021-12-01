@@ -18,7 +18,7 @@ public interface IMain {
 
     Filter getFilter();
 
-    ArrayList<Note> readNotes(Filter filter, Sort sort);
+    ArrayList<Note> readNotes();
 
     boolean isFiltered();
 }

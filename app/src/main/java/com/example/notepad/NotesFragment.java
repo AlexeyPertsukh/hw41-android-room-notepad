@@ -211,9 +211,7 @@ public class NotesFragment extends Fragment implements IConst, IToast, ILog, Rad
     }
 
     private void updateNotes() {
-        Filter filter = iMain.getFilter();
-        Sort sort = iMain.getSort();
-        ArrayList<Note> notes = iMain.readNotes(filter, sort);
+        ArrayList<Note> notes = iMain.readNotes();
         this.notes.clear();
         this.notes.addAll(notes);
         noteAdapter.notifyDataSetChanged();
