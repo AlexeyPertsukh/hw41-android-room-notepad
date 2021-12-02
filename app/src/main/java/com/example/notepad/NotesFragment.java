@@ -92,7 +92,7 @@ public class NotesFragment extends Fragment implements IConst, IToast, ILog, Rad
         rvNotes.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvNotes.setLayoutManager(layoutManager);
-        rvNotes.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+//        rvNotes.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
     }
 
     private void initAdapter() {
@@ -158,8 +158,6 @@ public class NotesFragment extends Fragment implements IConst, IToast, ILog, Rad
         Note note =  Note.getInstanceNull();
         iChangeFragment.showNoteDetailFragment(note);
     }
-
-
 
     @Override
     public void resultRadioButtonDialog(String type, int num) {

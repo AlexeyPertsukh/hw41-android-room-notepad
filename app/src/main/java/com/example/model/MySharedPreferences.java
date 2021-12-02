@@ -30,6 +30,15 @@ public class MySharedPreferences{
         editor.apply();
     }
 
+    public void putInt(String key, int value) {
+        editor.putInt(key, value);
+        editor.apply();
+    }
+
+    public int getInt(String key, int defaultResult) {
+        return sharedPreferences.getInt(key, defaultResult);
+    }
+
     public void putSort(String key, Sort sort) {
         String name = sort.name();
         putString(key, name);

@@ -1,5 +1,4 @@
 package com.example.constants;
-//подборка пастельных цветов: https://awdee.ru/podborka-pastelnyh-tsvetov-ot-color-thisislosko/
 
 public interface IConst {
     String KEY_NOTES = "key_notes";
@@ -16,5 +15,7 @@ public interface IConst {
     String KEY_RECOVERY = "key_recovery";
     String KEY_SHARED_FILTER = "key_shared_filter_name";
     String KEY_SHARED_SORT = "key_shared_sort_name";
+    String KEY_SHARED_COLOR = "key_shared_color";
+
     String GIT_URL = "https://github.com/AlexeyPertsukh/hw41-android-room-notepad";
 }

@@ -16,23 +16,26 @@ public class Note implements Parcelable, INull {
     private String title;
     private String memo;
     private String dt;
+    private int color;
 
     public Note() {
     }
 
     @Ignore
-    public Note(String title, String memo, String dt) {
+    public Note(String title, String memo, String dt, int color) {
         this.title = title;
         this.memo = memo;
         this.dt = dt;
+        this.color = color;
     }
 
     @Ignore
-    public Note(long id, String title, String memo, String dt) {
+    public Note(long id, String title, String memo, String dt, int color) {
         this.id = id;
         this.title = title;
         this.memo = memo;
         this.dt = dt;
+        this.color = color;
     }
 
     public long getId() {
@@ -67,6 +70,14 @@ public class Note implements Parcelable, INull {
         this.dt = dt;
     }
 
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
     public static NoteNull getInstanceNull() {
         return NoteNull.getInstance();
     }
@@ -87,6 +98,7 @@ public class Note implements Parcelable, INull {
         dest.writeString(title);
         dest.writeString(memo);
         dest.writeString(dt);
+        dest.writeInt(color);
     }
 
     public static final Creator<Note> CREATOR = new Creator<Note>() {
@@ -96,7 +108,8 @@ public class Note implements Parcelable, INull {
             String title = source.readString();
             String memo = source.readString();
             String dt = source.readString();
-            return new Note(id, title, memo, dt);
+            int color = source.readInt();
+            return new Note(id, title, memo, dt, color);
         }
 
         @Override

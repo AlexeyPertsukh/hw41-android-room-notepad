@@ -4,9 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <TextView
-        android:id="@+id/tvDialogTitle"
+        android:id="@+id/tvColorTitle"
         style="@style/StyleMainText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

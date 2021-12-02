@@ -1,5 +1,9 @@
 package com.example.model;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,12 +12,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.constants.IColor;
 import com.example.notepad.R;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> implements Serializable {
+public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> implements Serializable, IColor {
     private final static int LENGTH_SHORT_MEMO = 30;
     private final ArrayList<Note> notes;
     private OnClickItem onClickItem;
@@ -34,11 +39,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> im
         Note note = notes.get(position);
         holder.tvAdTitle.setText(note.getTitle());
         holder.tvAdDt.setText(note.getDt());
-        String shortMemo = note.getMemo().replace("\n", " ");;
+        String shortMemo = textToLine(note.getMemo());
         if(shortMemo.length() > LENGTH_SHORT_MEMO) {
             shortMemo = shortMemo.substring(0, LENGTH_SHORT_MEMO) + "...";
         }
         holder.tvAdShortMemo.setText(shortMemo);
+
+        holder.itemView.setBackgroundColor(note.getColor());
     }
 
     @Override
@@ -48,6 +55,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> im
         } else {
             return notes.size();
         }
+    }
+
+    private static String textToLine(String text) {
+        return text.replace("\n", " ");
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

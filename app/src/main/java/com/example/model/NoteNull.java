@@ -1,6 +1,8 @@
 package com.example.model;
 
-public class NoteNull extends Note{
+import com.example.constants.IColor;
+
+public class NoteNull extends Note implements IColor{
 
     private static NoteNull instance;
 
@@ -32,5 +34,10 @@ public class NoteNull extends Note{
     @Override
     public String getDt() {
         return EMPTY_STRING;
+    }
+
+    @Override
+    public int getColor() {
+        return COLOR_NONE;
     }
 }

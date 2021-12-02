@@ -2,7 +2,6 @@ package com.example.notepad;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
@@ -19,8 +18,6 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.constants.IConst;
 import com.example.util.ILog;
-
-import java.io.Serializable;
 
 //Вызывать из фрагмента, ParentFragment должен реализовывать интерфейс Callback
 public class RadioButtonDialogFragment extends DialogFragment implements IConst, ILog {
@@ -69,7 +66,7 @@ public class RadioButtonDialogFragment extends DialogFragment implements IConst,
         View view = inflater.inflate(R.layout.dialog_fragment_radiobutton, null);
         RadioGroup rg = view.findViewById(R.id.rgDialog);
 
-        TextView tvTitle = view.findViewById(R.id.tvDialogTitle);
+        TextView tvTitle = view.findViewById(R.id.tvColorTitle);
         tvTitle.setText(title);
 
         for (int i = 0; i < names.length; i++) {
@@ -97,17 +94,16 @@ public class RadioButtonDialogFragment extends DialogFragment implements IConst,
             return;
         }
 
-        int num = (Integer)compoundButton.getTag();
+        int num = (Integer) compoundButton.getTag();
         callbackRadioButtonDialog.resultRadioButtonDialog(type, num);
         dismiss();
     }
-
 
     private void clickCancel(DialogInterface dialogInterface, int i) {
 
     }
 
-   @Override
+    @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
     }

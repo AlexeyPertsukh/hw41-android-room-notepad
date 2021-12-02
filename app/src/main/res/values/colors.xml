@@ -6,6 +6,8 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
+    <color name="ultra_light_gray">#D3D1D1</color>
+    <color name="light_gray">#B3B2B2</color>
     <color name="gray">#717070</color>
     <color name="dark_gray">#504F4F</color>
     <color name="white">#FFFFFFFF</color>
@@ -14,7 +16,7 @@
     <color name="yellow">#FFC107</color>
     <color name="green">#1B501E</color>
     <color name="app_title_background">@color/dark_gray</color>
-    <color name="note_background">#F8F4D1</color>
-    <color name="settings_background">@color/note_background</color>
+    <color name="note_background">@color/white</color>
+    <color name="settings_background">#F18591</color>
     <color name="main_text_color">#FF000000</color>
 </resources>
