@@ -1,27 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
 
     <TextView
-        android:id="@+id/tvColor9"
+        android:id="@+id/tvColor15"
         style="@style/StyleColorTextView"
-        android:background="@drawable/shape_tv_color"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintStart_toEndOf="@+id/tvColor8"
-        app:layout_constraintTop_toBottomOf="@+id/tvColor6" />
+        android:background="@drawable/shape_tv_color"
+        app:layout_constraintStart_toEndOf="@+id/tvColor14"
+        app:layout_constraintTop_toBottomOf="@+id/tvColor11" />
 
     <TextView
-        android:id="@+id/tvColor7"
+        android:id="@+id/tvColor13"
         style="@style/StyleColorTextView"
-        android:background="@drawable/shape_tv_color"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:background="@drawable/shape_tv_color"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvColor4" />
+        app:layout_constraintTop_toBottomOf="@+id/tvColor9" />
+
+    <TextView
+        android:id="@+id/tvColor14"
+        style="@style/StyleColorTextView"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/shape_tv_color"
+        app:layout_constraintStart_toEndOf="@+id/tvColor13"
+        app:layout_constraintTop_toBottomOf="@+id/tvColor10" />
+
+    <TextView
+        android:id="@+id/tvColor16"
+        style="@style/StyleColorTextView"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/shape_tv_color"
+        app:layout_constraintStart_toEndOf="@+id/tvColor15"
+        app:layout_constraintTop_toBottomOf="@+id/tvColor12" />
+
+    <TextView
+        android:id="@+id/tvColor12"
+        style="@style/StyleColorTextView"
+        android:background="@drawable/shape_tv_color"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/tvColor11"
+        app:layout_constraintTop_toBottomOf="@+id/tvColor8" />
+
+    <TextView
+        android:id="@+id/tvColor4"
+        style="@style/StyleColorTextView"
+        android:background="@drawable/shape_tv_color"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/tvColor3"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvColor8"
@@ -30,16 +74,34 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toEndOf="@+id/tvColor7"
-        app:layout_constraintTop_toBottomOf="@+id/tvColor5" />
+        app:layout_constraintTop_toBottomOf="@+id/tvColor4" />
 
     <TextView
-        android:id="@+id/tvColor5"
+        android:id="@+id/tvColor11"
         style="@style/StyleColorTextView"
         android:background="@drawable/shape_tv_color"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintStart_toEndOf="@+id/tvColor4"
-        app:layout_constraintTop_toBottomOf="@+id/tvColor2" />
+        app:layout_constraintStart_toEndOf="@+id/tvColor10"
+        app:layout_constraintTop_toBottomOf="@+id/tvColor7" />
+
+    <TextView
+        android:id="@+id/tvColor9"
+        style="@style/StyleColorTextView"
+        android:background="@drawable/shape_tv_color"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvColor5" />
+
+    <TextView
+        android:id="@+id/tvColor10"
+        style="@style/StyleColorTextView"
+        android:background="@drawable/shape_tv_color"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/tvColor9"
+        app:layout_constraintTop_toBottomOf="@+id/tvColor6" />
 
     <TextView
         android:id="@+id/tvColor6"
@@ -48,10 +110,19 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toEndOf="@+id/tvColor5"
+        app:layout_constraintTop_toBottomOf="@+id/tvColor2" />
+
+    <TextView
+        android:id="@+id/tvColor7"
+        style="@style/StyleColorTextView"
+        android:background="@drawable/shape_tv_color"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/tvColor6"
         app:layout_constraintTop_toBottomOf="@+id/tvColor3" />
 
     <TextView
-        android:id="@+id/tvColor4"
+        android:id="@+id/tvColor5"
         style="@style/StyleColorTextView"
         android:background="@drawable/shape_tv_color"
         android:layout_marginStart="16dp"
@@ -86,3 +157,5 @@
         app:layout_constraintStart_toEndOf="@+id/tvColor1"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

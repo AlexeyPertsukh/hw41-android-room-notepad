@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -19,8 +18,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.constants.IColor;
 import com.example.constants.IConst;
+import com.example.model.MyColor;
 import com.example.model.MySharedPreferences;
 import com.example.model.Note;
 import com.example.model.NoteDao;
@@ -31,7 +30,7 @@ import com.example.util.IToast;
 import java.io.Serializable;
 
 
-public class NoteDetailFragment extends Fragment implements IConst, IToast, IBasicDialog, IColor, ColorDialogFragment.CallbackColorDialog {
+public class NoteDetailFragment extends Fragment implements IConst, IToast, IBasicDialog, ColorDialogFragment.CallbackColorDialog {
 
     private static final String COLOR_DIALOG_FRAGMENT_TAG = "color_dialog_tag";
 
@@ -44,8 +43,7 @@ public class NoteDetailFragment extends Fragment implements IConst, IToast, IBas
     private Note inputNote;
     private NoteDao dao;
 
-    @ColorInt
-    private int color;
+    private int colorCode;
 
     private IGeneralMenu iGeneralMenu;
     private IChangeFragment iChangeFragment;
@@ -81,15 +79,6 @@ public class NoteDetailFragment extends Fragment implements IConst, IToast, IBas
             loadFromArguments();
         }
 
-
-        if(inputNote.getColor() == COLOR_NONE) {
-            color = getDefaultColor();
-        } else {
-            color = inputNote.getColor();
-        }
-
-        setColor(color);
-
         setHasOptionsMenu(true);
         return view;
     }
@@ -113,6 +102,8 @@ public class NoteDetailFragment extends Fragment implements IConst, IToast, IBas
         addNoteToView(editNote);
         setSelectInEt(etTitle, selectTitle);
         setSelectInEt(etMemo, selectMemo);
+        this.colorCode = bundle.getInt(KEY_COLOR);
+        setColorCode(colorCode);
 
         if(selectTitle.isEdit() || selectMemo.isEdit()) {
             openKeyboard();
@@ -122,6 +113,13 @@ public class NoteDetailFragment extends Fragment implements IConst, IToast, IBas
     private void loadFromArguments() {
         inputNote = getArguments().getParcelable(KEY_ONE_NOTE);
         addNoteToView(inputNote);
+
+        int colorCode = inputNote.getColor();
+        if( colorCode == CODE_COLOR_NONE) {
+            setColorCode(readColorCodeFromShared());
+        } else {
+            setColorCode(colorCode);
+        }
     }
 
     private void addNoteToView(Note note) {
@@ -133,7 +131,7 @@ public class NoteDetailFragment extends Fragment implements IConst, IToast, IBas
     private void updateInputNoteFromView() {
         inputNote.setTitle(etTitle.getText().toString());
         inputNote.setMemo(etMemo.getText().toString());
-        inputNote.setColor(color);
+        inputNote.setColor(colorCode);
         String updateDt = DataTimeUtil.getStringCurrentDateTime();
         inputNote.setDt(updateDt);
     }
@@ -142,7 +140,7 @@ public class NoteDetailFragment extends Fragment implements IConst, IToast, IBas
         String title = etTitle.getText().toString();
         String memo = etMemo.getText().toString();
         String dt = tvDateTime.getText().toString();
-        return new Note(title, memo, dt, color);
+        return new Note(title, memo, dt, colorCode);
     }
 
     private Note createNoteFromViewWithCurrentDt() {
@@ -183,6 +181,7 @@ public class NoteDetailFragment extends Fragment implements IConst, IToast, IBas
             updateInputNoteFromView();
             dao.update(inputNote);
         }
+        saveColorCodeToShared();
         iChangeFragment.showNotesFragment();
     }
 
@@ -210,6 +209,8 @@ public class NoteDetailFragment extends Fragment implements IConst, IToast, IBas
 
         outState.putSerializable(KEY_SELECT_TITLE, selectTitle);
         outState.putSerializable(KEY_SELECT_MEMO, selectMemo);
+        outState.putSerializable(KEY_SELECT_MEMO, selectMemo);
+        outState.putInt(KEY_COLOR, colorCode);
     }
 
     private static class Select implements Serializable {
@@ -239,22 +240,26 @@ public class NoteDetailFragment extends Fragment implements IConst, IToast, IBas
         dialog.show(getChildFragmentManager(), COLOR_DIALOG_FRAGMENT_TAG);
     }
 
-    private void setColor(@ColorInt int color) {
-        this.color = color;
-        llNoteDetail.setBackgroundColor(color);
-        MySharedPreferences mySharedPreferences = MySharedPreferences.getInstance(getContext());
-        mySharedPreferences.putInt(KEY_SHARED_COLOR, color);
+
+    private void setColorCode(int colorCode) {
+        this.colorCode = colorCode;
+        llNoteDetail.setBackgroundColor(colorCode);
     }
 
-    private int getDefaultColor() {
+    private int readColorCodeFromShared() {
         MySharedPreferences mySharedPreferences = MySharedPreferences.getInstance(getContext());
-        return mySharedPreferences.getInt(KEY_SHARED_COLOR, COLOR_DEFAULT);
+        return mySharedPreferences.getInt(KEY_SHARED_COLOR_CODE, COLOR_DEFAULT.getCode());
+    }
+
+    private void saveColorCodeToShared() {
+        MySharedPreferences mySharedPreferences = MySharedPreferences.getInstance(getContext());
+        mySharedPreferences.putInt(KEY_SHARED_COLOR_CODE, colorCode);
     }
 
 
     @Override
-    public void resultColorDialog(int color) {
-        setColor(color);
+    public void resultColorDialog(MyColor color) {
+        setColorCode(color.getCode());
     }
 
 

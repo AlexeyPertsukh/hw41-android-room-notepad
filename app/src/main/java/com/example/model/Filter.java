@@ -10,7 +10,7 @@ public enum Filter implements Serializable {
     ;
 
     private final String query;
-    private String description;
+    private final String description;
 
     Filter(String query, String description) {
         this.query = query;

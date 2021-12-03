@@ -1,9 +1,5 @@
 package com.example.model;
 
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +8,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.constants.IColor;
 import com.example.notepad.R;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> implements Serializable, IColor {
+public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> implements Serializable {
     private final static int LENGTH_SHORT_MEMO = 30;
     private final ArrayList<Note> notes;
     private OnClickItem onClickItem;
